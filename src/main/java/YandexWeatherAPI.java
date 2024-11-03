@@ -14,9 +14,7 @@ public class YandexWeatherAPI {
         this.apiKey = apiKey;
     }
 
-    public JSONObject getWeather(double latitude, double longitude) {
-        URI uri = URI.create(BASE_URL + "?lat=" + latitude + "&lon=" + longitude);
-
+    private JSONObject fetchDataFromAPI(URI uri) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
                 .header("X-Yandex-Weather-Key", apiKey)
@@ -30,6 +28,17 @@ public class YandexWeatherAPI {
         }
 
         return null;
+    }
+
+    public JSONObject getWeather(double latitude, double longitude) {
+        URI uri = URI.create(BASE_URL + "?lat=" + latitude + "&lon=" + longitude);
+        return fetchDataFromAPI(uri);
+    }
+
+    public JSONObject getWeather(double latitude, double longitude, int limit) {
+        URI uri = URI.create(BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&limit=" + limit + "&hours=false");
+        System.out.println(uri);
+        return fetchDataFromAPI(uri);
     }
 
 }
